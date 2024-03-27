@@ -1,7 +1,7 @@
 from django import forms
-from account . models import *
+from home . models import *
 from . models import *
-
+from django.contrib.auth.forms import UserChangeForm as BaseUserChangeForm
 
 class CourseForm(forms.ModelForm):
     class Meta:
@@ -15,8 +15,11 @@ class NotificationForm(forms.ModelForm):
         fields = ['message']
 
 
-class StaffEditForm(forms.ModelForm):
+
+class StaffChangeForm(BaseUserChangeForm):
+    profile_image = forms.ImageField(required=False)
     class Meta:
-        model = Staff
-        fields = ['name', 'profile_image'] 
+        model = CustomUser
+        fields = ['username', 'email', 'first_name', 'last_name', 'profile_image']
+
 

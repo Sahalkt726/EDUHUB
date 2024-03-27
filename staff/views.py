@@ -1,11 +1,11 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from account . models import *
 from django.contrib.auth.decorators import login_required
-from django.contrib import messages
 from .forms import *
 from django.urls import reverse
 from django.http import HttpResponseNotFound
 from . models import *
+
 
 
 # Create your views here.
@@ -15,9 +15,7 @@ from . models import *
 def staff_dashboard(request):
     staff_profile = Staff.objects.get(user=request.user)
     profile_image = staff_profile.profile_image.url if staff_profile.profile_image else None
-    return render(request, 'staff_dashboard.html', {'profile_image': profile_image})
-
-
+    return render(request, 'staff_templates/staff_dashboard.html', {'profile_image': profile_image})
 
 
 def manage_courses(request):
@@ -55,7 +53,7 @@ def update_course(request, course_id):
                 return redirect('manage_courses')
         else:
             form = CourseForm(instance=course)
-        return render(request, 'update_course.html', {'form': form})
+        return render(request, 'staff_templates/update_course.html', {'form': form})
     except Course.DoesNotExist:
         return HttpResponseNotFound("Course not found")
 
@@ -71,18 +69,29 @@ def create_notification(request):
             return redirect('notifications')  
     else:
         form = NotificationForm()
-    return render(request, 'notifications.html', {'form': form})   
+    return render(request, 'staff_templates/notifications.html', {'form': form})  
+ 
 
 
 
 
-def edit_staff_details(request):
-    staff_profile = Staff.objects.get(user=request.user)
+
+
+def edit_staff_details(request,user_id):
+    user = request.user
     if request.method == 'POST':
-        form = StaffEditForm(request.POST, request.FILES, instance=staff_profile)
+        form = StaffChangeForm(request.POST, request.FILES, instance=user)
         if form.is_valid():
             form.save()
-            return redirect('staff_dashboard')  # Redirect to staff profile page
+            staff = Staff.objects.get(user=user)
+            staff.name = user.username
+            staff.email = user.email
+            staff.profile_image = user.profile_image
+            staff.save()
+            return redirect('staff_dashboard')  
     else:
-        form = StaffEditForm(instance=staff_profile)
-    return render(request, 'edit_staff.html', {'form': form})
+        form = StaffChangeForm(instance=user)
+    return render(request, 'staff_templates/edit_staff_details.html', {'form': form})
+
+
+

@@ -2,48 +2,54 @@ from django.shortcuts import render, redirect
 from . forms import *
 from django.contrib.auth import authenticate, login, logout
 from .models import *
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
+from django.contrib import messages
 
 
-def index(request):
-    courses = Course.objects.all()
-    return render(request, 'index.html', {'courses': courses})
 
 
 def staff_signup(request):
     if request.method == 'POST':
-        form = StaffSignupForm(request.POST)
+        form = StaffSignupForm(request.POST, request.FILES)
         if form.is_valid():
             user = form.save(commit=False)
-            user.is_staff = True 
+            user.is_staff = True
             user.save()
-            
-            profile_image = request.FILES.get('profile_image')
-            Staff.objects.create(user=user, name=user.username, profile_image=profile_image)
-            return redirect('login')  
+            staff = Staff.objects.create(
+                user=user,
+                name=user.username,
+                email=user.email,
+                profile_image=form.cleaned_data['profile_image']
+            )
+            return redirect('login')
     else:
         form = StaffSignupForm()
-    return render(request, 'staff_signup.html', {'form': form})
+    return render(request, 'staff_templates/staff_signup.html', {'form': form})
 
 
 def student_signup(request):
     if request.method == 'POST':
-        form = StudentSignupForm(request.POST)
+        form = StudentSignupForm(request.POST, request.FILES)
         if form.is_valid():
             user = form.save(commit=False)
-            user.is_student = True 
+            user.is_student = True
             user.save()
-            profile_image = request.FILES.get('profile_image')
-            Student.objects.create(user=user, name=user.username, profile_image=profile_image)
-
-            return redirect('login')  
+            staff = Student.objects.create(
+                user=user,
+                name=user.username,
+                email=user.email, 
+                profile_image=form.cleaned_data['profile_image']
+            )
+            return redirect('login')
     else:
         form = StudentSignupForm()
-    return render(request, 'student_signup.html', {'form': form})
+    return render(request, 'student_templates/student_signup.html', {'form': form})
 
 
 def user_login(request):
     if request.method == 'POST':
-        form = UserLoginForm(request.POST)
+        form = LoginForm(request.POST)
         if form.is_valid():
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
@@ -54,14 +60,27 @@ def user_login(request):
                     return redirect('staff_dashboard')
                 elif user.is_student:
                     return redirect('student_dashboard')
+                else:
+                    pass
             else:
-                error_message = "Invalid username or password"
-                return render(request, 'login.html', {'form': form, 'error_message': error_message})
+                form.add_error(None, "Invalid username or password.")
     else:
-        form = UserLoginForm()
-    return render(request, 'login.html', {'form': form})
+        form = LoginForm()
+    return render(request, 'home_templates/login.html', {'form': form})
 
 
+def change_password(request):
+    user = request.user
+    if request.method == 'POST':
+        password_form = PasswordChangeForm(user, request.POST)
+        if password_form.is_valid():
+            user = password_form.save()
+            update_session_auth_hash(request, user) 
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('change_password')
+    else:
+        password_form = PasswordChangeForm(user)
+    return render(request, 'home_templates/change_password.html', {'password_form': password_form})
     
 
 

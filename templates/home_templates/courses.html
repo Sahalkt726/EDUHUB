@@ -1,0 +1,37 @@
+{% extends 'base.html' %} 
+{% load static %} 
+{% block title %}Home page{% endblock %} 
+{% block content %}
+
+<section id="courses">
+    <div class="container mt-5 p-4">
+        <div>
+            <h2 style="color: #000">Popular Courses</h2>
+        </div>
+        <div class="container">
+            <div class="row">
+                {% for course in courses %}
+                <div class="col-md-4 mb-4">
+                    <div class="card" style="background-color: lightgoldenrodyellow;">
+                        <img src="{{ course.course_image.url }}" alt="{{ course.title }}" class="card-img-top">           
+                        <div class="card-body">
+                            <h4>{{ course.title }}</h4>
+                            <p class="card-text">{{ course.description }}</p>
+                            <p class="card-text">{{ course.staff }}</p>
+                            <div class="stars" data-rating="0">
+                                <span style="font-weight: bold">4.4</span> <i class="fa-solid fa-star" style="color: gold"></i>
+                                <i class="fa-solid fa-star" style="color: gold"></i>
+                                <i class="fa-solid fa-star" style="color: gold"></i>
+                                <i class="fa-solid fa-star" style="color: gold"></i>
+                                <i class="fa-solid fa-star-half-stroke" style="color: gold"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

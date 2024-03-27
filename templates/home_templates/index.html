@@ -66,30 +66,4 @@
         <span class="visually-hidden">Next</span>
     </button>
 </div>
-
-<section id="courses" style="background-color: lightgoldenrodyellow">
-    <div class="container mt-5 p-4">
-        <div>
-            <h2 style="color: #000">Popular Courses</h2>
-        </div>
-        <div class="container">
-            <div class="row">
-                {% for course in courses %}
-                <div class="col-md-4 mb-4">
-                    <div class="card">
-                        <img src="{{ course.course_image.url }}" alt="{{ course.title }}" class="card-img-top">           
-                        <div class="card-body">
-                            <h4>{{ course.title }}</h4>
-                            <p class="card-text">{{ course.description }}</p>
-                            <a href="{% url 'login' %}" class="btn btn-custom-4">Get Course</a>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-    </div>
-</section>
-
-
 {% endblock %}

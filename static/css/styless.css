@@ -114,29 +114,40 @@ body {
 }
 /* button end */
 
-/* contact start */
-.contact {
-    width: 80%;
-    margin: auto;
+
+/* about start */
+.about{
+    margin: 50px auto;
     padding: 20px;
 }
-.form-group {
+/* about end */
+
+/* contact start */
+
+.contact {
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color:#016795;
+}
+.contact .form-group {
     margin-bottom: 20px;
 }
 
-label {
+.contact label {
     display: block;
     font-weight: bold;
-    color: #fff;
+    color: #000;
 }
 
-input[type="text"],
+.contact input[type="text"],
 input[type="email"],
 input[type="number"],
 textarea {
     width: 100%;
     padding: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid #000;
     border-radius: 4px;
 }
 
@@ -210,6 +221,7 @@ input[type="submit"]:hover {
 }
 
 /* profile end */
+
 
 
 /* message start */
