@@ -1,14 +1,21 @@
-<!-- create_notification.html -->
 {% extends 'base.html' %}
 {% block title %}Create Notification{% endblock %}
 
 {% block content %}
-<div class="container">
-    <h1>Create Notification</h1>
+<div class="container mt-5">
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Send Notification</button>
+        <div class="form-group">
+            <textarea class="form-control" name="message" rows="8" placeholder="Enter your notification"></textarea>
+        </div>
+        {% if messages %}
+        <div class="alert alert-success" role="alert">
+            {% for message in messages %}
+            {{ message }}
+            {% endfor %}
+        </div>
+        {% endif %}
+        <button type="submit" class="btn btn-custom-3">Send Notification</button>
     </form>
 </div>
 {% endblock %}

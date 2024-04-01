@@ -19,14 +19,14 @@
         
         <title>{% block title %}{% endblock %}</title>
         {% load static %}
-        <link rel="stylesheet" href="{% static 'css/styless.css' %}">
+        <link rel="stylesheet" href="{% static 'css/stylessss.css' %}">
         <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.png' %}">
     </head>
     <body>
       <div class="hero-section">
         <nav class="navbar navbar-expand-lg navbar-light p-3 w-100 sticky-top bg-white">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#"><i class="fa-solid fa-graduation-cap"></i><span> EDU</span>HUB</a>
+                <a class="navbar-brand" href="/"><i class="fa-solid fa-graduation-cap"></i><span> EDU</span>HUB</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>               
@@ -35,23 +35,24 @@
                 <div class="collapse navbar-collapse justify-content-lg-center" id="navbarSupportedContent">
                     <ul class="navbar-nav  mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#" style="color:#016795;">Home</a>
+                            <a class="nav-link active" aria-current="page" href="{% url 'staff_dashboard' %}" style="color:#016795;">Home</a>
                         </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="{% url 'notifications' %}">Notifications</a>
+                      </li>
                         <li class="nav-item">
                           <a class="nav-link" href="{% url 'manage_courses' %}">ManageCourses</a>
                       </li>                   
+                       
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'notifications' %}">Announcements</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="#">Tests</a>
+                          <a class="nav-link" href="{% url 'question_list' %}">Tests</a>
                       </li>
-                      <li class="nav-item">
-                        <a class="nav-link" href="#">Videos</a>
-                    </li>
                     <li class="nav-item">
                       <a class="nav-link" href="#">StudyMaterial</a>
                   </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{% url 'staff_feedback' %}">Feedback</a>
+                </li>
                     </ul>
                   </div> 
                   <div style="margin-right: 20px;">
@@ -68,26 +69,20 @@
                   <div class="collapse navbar-collapse justify-content-lg-center" id="navbarSupportedContent">
                     <ul class="navbar-nav  mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#" style="color:#016795;">Home</a>
+                            <a class="nav-link active" aria-current="page" href="{% url 'student_dashboard'%}" style="color:#016795;">Home</a>
+                        </li>                  
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'student_notification' %}">Notifications</a>
                         </li>
                         <li class="nav-item">
-                          <a class="nav-link" href="#">Attendance</a>
-                        </li>                   
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Assignments</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'student_notification' %}">Announcements</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="#">Tests</a>
+                          <a class="nav-link" href="{% url 'display_questions' %}">Tests</a>
                       </li>
-                      <li class="nav-item">
-                        <a class="nav-link" href="#">Videos</a>
-                    </li>
                     <li class="nav-item">
                       <a class="nav-link" href="#">StudyMaterial</a>
                   </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="#">Feedback</a>
+                      </li>
                   </ul>
                   </div> 
                   <div style="margin-right: 20px;">

@@ -1,13 +1,35 @@
-{% extends 'base.html' %}
-{% block title %}Student Notifications{% endblock %}
+{% extends 'base.html' %} {% block title %}Student Notifications{% endblock %} {% block content %}
+<div class="container mt-5">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Message</th>
+                <th>Date</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for notification in notifications %}
+            <tr>
+                <td>{{ notification.message }}</td>
+                <td>{{ notification.created_at }}</td>
+                <td>
+                    <form method="post" action="{% url 'delete_notification' notification.id %}">
+                        {% csrf_token %}
 
-{% block content %}
-<div class="container">
-    <h1>Student Notifications</h1>
-    <ul class="list-group">
-        {% for notification in notifications %}
-        <li class="list-group-item">{{ notification.message }}</li>
-        {% endfor %}
-    </ul>
+                        <button type="submit" class="btn btn-danger"><i class="fa-solid fa-xmark"></i></button>
+                    </form>
+                   
+                </td>
+            </tr>
+            {% endfor %}
+            
+        </tbody>
+    </table>
+    {% if messages %}
+            <div class="alert alert-success" role="alert">
+                {% for message in messages %} {{ message }} {% endfor %}
+            </div>
+            {% endif %}
 </div>
 {% endblock %}

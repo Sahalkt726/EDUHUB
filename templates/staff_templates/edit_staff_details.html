@@ -1,6 +1,6 @@
 {% extends 'base.html' %} 
 {% load static %} 
-{% block title %}Staff signup{% endblock %} 
+{% block title %}edit-staff-page{% endblock %} 
 {% block content %}
 
 <div class="container form">
@@ -22,7 +22,7 @@
         <div class="form-group">
             <input type="file"  name="profile_image" >
         </div>
-        <input type="submit" value="Save Changes" />
+        <input type="submit" value="Save" />
         <div class="link">
             <a href="{% url 'change_password' %}"> Change Password</a>
         </div>

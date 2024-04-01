@@ -47,6 +47,7 @@ def student_signup(request):
     return render(request, 'student_templates/student_signup.html', {'form': form})
 
 
+
 def user_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
