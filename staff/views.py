@@ -5,17 +5,20 @@ from .forms import *
 from django.urls import reverse
 from django.http import HttpResponseNotFound
 from . models import *
+from student . models import *
+from django.contrib import messages
 
 
 
-# Create your views here.
+
 
 
 @login_required
 def staff_dashboard(request):
+    total_students = Student.objects.count()
     staff_profile = Staff.objects.get(user=request.user)
     profile_image = staff_profile.profile_image.url if staff_profile.profile_image else None
-    return render(request, 'staff_templates/staff_dashboard.html', {'profile_image': profile_image})
+    return render(request, 'staff_templates/staff_dashboard.html', {'profile_image': profile_image,'total_students': total_students})
 
 
 def manage_courses(request):
@@ -29,7 +32,7 @@ def manage_courses(request):
     else:
         form = CourseForm()
     courses = Course.objects.filter(staff=request.user.staff)
-    return render(request, 'manage_course.html', {'form': form, 'courses': courses})
+    return render(request, 'staff_templates/manage_course.html', {'form': form, 'courses': courses})
 
 
 def delete_course(request, course_id):
@@ -58,6 +61,7 @@ def update_course(request, course_id):
         return HttpResponseNotFound("Course not found")
 
 
+
 def create_notification(request):
     if request.method == 'POST':
         form = NotificationForm(request.POST)
@@ -66,14 +70,11 @@ def create_notification(request):
             students = Student.objects.all() 
             for student in students:
                 Notification.objects.create(user=student.user, message=message)
+            messages.success(request, "Your message has been sent successfully.")
             return redirect('notifications')  
     else:
         form = NotificationForm()
-    return render(request, 'staff_templates/notifications.html', {'form': form})  
- 
-
-
-
+    return render(request, 'staff_templates/notifications.html', {'form': form})
 
 
 
@@ -94,4 +95,39 @@ def edit_staff_details(request,user_id):
     return render(request, 'staff_templates/edit_staff_details.html', {'form': form})
 
 
+def staff_feedback(request):
+    staff_member = request.user.staff
+    feedbacks = Feedback.objects.filter(staff_member=staff_member)
+    return render(request, 'staff_templates/staff_feedback.html', {'feedbacks': feedbacks})
 
+
+def question_list(request):
+    questions = Question.objects.all()
+    return render(request, 'staff_templates/question_list.html', {'questions': questions})
+
+def delete_choice(request, choice_id):
+    choice = get_object_or_404(Choice, pk=choice_id)
+    question_id = choice.question.id
+    choice.delete()
+    return redirect('edit_question', question_id=question_id)
+
+def delete_question(request, question_id):
+    question = get_object_or_404(Question, pk=question_id)
+    question.delete()
+    return redirect('question_list')
+
+def add_question(request):
+    if request.method == 'POST':
+        question_form = QuestionForm(request.POST)
+        choice_formset = ChoiceFormSet(request.POST)
+        if question_form.is_valid() and choice_formset.is_valid():
+            question = question_form.save()
+            for form in choice_formset:
+                choice = form.save(commit=False)
+                choice.question = question
+                choice.save()
+            return redirect('add_question')  
+    else:
+        question_form = QuestionForm()
+        choice_formset = ChoiceFormSet()
+    return render(request, 'staff_templates/add_question.html', {'question_form': question_form, 'choice_formset': choice_formset})

@@ -15,7 +15,6 @@ class NotificationForm(forms.ModelForm):
         fields = ['message']
 
 
-
 class StaffChangeForm(BaseUserChangeForm):
     profile_image = forms.ImageField(required=False)
     class Meta:
@@ -23,3 +22,18 @@ class StaffChangeForm(BaseUserChangeForm):
         fields = ['username', 'email', 'first_name', 'last_name', 'profile_image']
 
 
+
+class QuestionForm(forms.ModelForm):
+    class Meta:
+        model = Question
+        fields = ['text']
+
+class ChoiceForm(forms.ModelForm):
+    class Meta:
+        model = Choice
+        fields = ['text', 'is_correct']
+        widgets = {
+            'is_correct': forms.CheckboxInput(attrs={'class': 'form-check-input'})
+        }
+
+ChoiceFormSet = forms.inlineformset_factory(Question, Choice, form=ChoiceForm, extra=4)

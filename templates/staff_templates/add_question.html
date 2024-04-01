@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Question</title>
+</head>
+<body>
+    <h1>Add Question</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ question_form.as_p }}
+        {{ choice_formset.management_form }}
+        <fieldset>
+            <legend>Choices</legend>
+            {{ choice_formset.management_form }}
+            {% for form in choice_formset %}
+                {{ form.as_p }}
+            {% endfor %}
+        </fieldset>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
