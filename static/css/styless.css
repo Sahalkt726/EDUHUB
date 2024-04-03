@@ -287,6 +287,10 @@ input[type="submit"]:hover {
     border-radius: 5px;
     background-color: #016795;
 }
+.manage-course label{
+    color: #fff;
+    font-weight: bold;
+}
 .manage-course input[type="submit"] {
     width: 100%;
     padding: 10px;
@@ -301,8 +305,48 @@ input[type="submit"]:hover {
 }
 /* manage_course end */
 
+/* question style start */
 
+/* Add this CSS to your stylesheet or within <style> tags in your HTML */
+.question-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
 
+.question-table th, .question-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+.question-table th {
+    background-color: #f2f2f2;
+}
+
+.action-button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.add-link {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.add-link a {
+    background-color: #016795;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 4px;
+    text-decoration: none;
+}
+
+.add-link a:hover {
+    background-color:slategray;
+}
+/* question style end */
 
 
 

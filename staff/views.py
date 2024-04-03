@@ -103,13 +103,11 @@ def staff_feedback(request):
 
 def question_list(request):
     questions = Question.objects.all()
-    return render(request, 'staff_templates/question_list.html', {'questions': questions})
+    choices = Choice.objects.all() 
+    return render(request, 'staff_templates/question_list.html', {'questions': questions,'choices':choices})
 
-def delete_choice(request, choice_id):
-    choice = get_object_or_404(Choice, pk=choice_id)
-    question_id = choice.question.id
-    choice.delete()
-    return redirect('edit_question', question_id=question_id)
+
+
 
 def delete_question(request, question_id):
     question = get_object_or_404(Question, pk=question_id)

@@ -12,7 +12,6 @@ urlpatterns = [
     path('edit_staff_details/<int:user_id>/', edit_staff_details, name='edit_staff_details'),
     path('feedback', staff_feedback , name='staff_feedback'),
     path('add_question/', add_question, name='add_question'),
-    path('delete/choice/<int:choice_id>/', delete_choice, name='delete_choice'),
     path('delete/question/<int:question_id>/', delete_question, name='delete_question'),
     path('question_list', question_list, name='question_list'),
 ]
